@@ -1,0 +1,84 @@
+.my-form {
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+
+    display: flex;
+    flex-direction: column;
+    height: 375px;
+    max-width: 25%;
+    align-items: center;
+    justify-content: space-around;
+    margin: auto;
+    transform: translateY(20%);
+
+    border: 3px solid darkgray;
+    border-radius: 20px;
+}
+
+.my-form__header {
+    align-self: stretch;
+    text-align: center;
+}
+
+.my-form__header::after {
+    content: '';
+    display: block;
+    background: linear-gradient(90deg, rgba(196,37,37,1) 0%, rgba(9,9,121,1) 48%, rgba(168,255,0,1) 100%);
+    width: 100%;
+    height: 1px;
+    position: relative;
+    top: 30px;
+}
+
+.my-form__text-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.my-form__text {
+    font-size: 18px;
+    width: 96%;
+    border: none;
+    border-bottom: 1px solid darkgray;
+    outline: none;
+}
+
+.underline {
+    background-color: dodgerblue;
+    display: inline-block;
+    height: 2px;
+    position: relative;
+    top: -1px;
+    -webkit-transform: scale(0, 1);
+    transform: scale(0, 1);
+    -webkit-transition: all 0.5s linear;
+    transition: all 0.5s linear;
+    width: 100%;
+}
+
+.my-form__text:focus+.underline {
+    transform: scale(1);
+}
+
+.my-form__btn {
+    align-self: center;
+    width: 50%;
+
+    border: none;
+    border-radius: 50px;
+    padding: 10px;
+    font-size: 18px;
+    background: linear-gradient(to right, black 50%, white 50%);
+    background-size: 201% 100%;
+    letter-spacing: 2px;
+    background-position: right bottom;
+    border: 1px solid rgb(53, 52, 105);
+    cursor: pointer;
+
+    transition: all .5s ease-out;
+}
+
+.my-form__btn:hover {
+    background-position: left bottom;
+    color: #fff
+}
