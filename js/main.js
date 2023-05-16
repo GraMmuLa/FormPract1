@@ -1,21 +1,21 @@
-function createEmptyErrorLabel(text, inputParent) {
+function createErrorLabel(text, inputParent) {
     if (inputParent.classList.contains("error"))
         return null;
 
     inputParent.classList.add("error");
-    const emptyLabel = document.createElement('label');
-    emptyLabel.textContent = text;
-    emptyLabel.classList.add(formClassName(inputParent.classList[0], "errorEmptyLabel"));
 
-    emptyLabel.style.color = "rgba(255, 0, 0, 0.671)";
-    emptyLabel.style.alignSelf = "flex-start";
-    emptyLabel.style.fontSize = "12px";
+    const errorLabel = document.createElement('label');
+    errorLabel.textContent = text;
+    errorLabel.classList.add(formClassName(inputParent.classList[0], "errorEmptyLabel"));
+    errorLabel.setAttribute("for", inputParent.querySelector('input').id);
 
-    inputParent.append(emptyLabel);
+    errorLabel.style.color = "rgba(255, 0, 0, 0.671)";
+    errorLabel.style.alignSelf = "flex-start";
+    errorLabel.style.fontSize = "12px";
 
-    console.log(inputParent);
+    inputParent.append(errorLabel);
 
-    return emptyLabel;
+    return errorLabel;
 }
 
 function removeEmptyErrorLabel(inputParent) {
@@ -32,16 +32,26 @@ function validate(form) {
 
     let result = true;
 
-    let regLogin = new RegExp(/\w+/);
+    let regLogin = new RegExp(/\w{6,}/);
+    let regEmail = new RegExp(/\w+@[a-zA-Z]+\.[a-zA-Z]+/);
     let regPassword = new RegExp(/(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/);
-    let regEmail = new RegExp(/(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/);
 
     for (x of form.querySelectorAll('input')) {
         if (x.value === "") {
-            // TODO
+            createErrorLabel("поле не заполнено", x.parentNode);
             result = false;
-
-            createEmptyErrorLabel("поле не заполнено", x.parentElement);
+        }
+        else if (x.id === 'my-form__login' && !regLogin.test(x.value)) {
+            createErrorLabel("некорректный логин", x.parentNode);
+            result = false;
+        }
+        else if (x.id === 'my-form__email' && !regEmail.test(x.value)) {
+            createErrorLabel("некорректный e-mail", x.parentNode);
+            result = false;
+        }
+        else if (x.id === 'my-form__password' && !regPassword.test(x.value)) {
+            createErrorLabel("некорректный пароль", x.parentNode);
+            result = false;
         }
     }
 
@@ -49,8 +59,8 @@ function validate(form) {
 }
 
 document.querySelector('.my-form').addEventListener("submit", (e) => {
-    e.preventDefault();
-    validate(e.target);
+    if (!validate(e.target))
+        e.preventDefault();
 });
 
 document.querySelector('.my-form').addEventListener("click", (e) => {
